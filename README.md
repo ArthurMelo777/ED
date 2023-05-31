@@ -5,7 +5,7 @@ Repositório criado para armazenas os códigos implementados na disciplina de Es
 **TAD** é a abreviação para Tipo Abstrato de Dados. Um TAD serve para armazenar elementos de diversas maneiras, mudando de acordo com cada tipo.
 
 ## TADs implementados
-[TAD PILHA](https://github.com/arthurmelo777/ed/pilha)
+[TAD PILHA](https://github.com/ArthurMelo777/ED/tree/main/Pilha)
 
 
 [TAD FILA](https://github.com/arthurmelo777/ed/fila)
@@ -23,5 +23,4 @@ Repositório criado para armazenas os códigos implementados na disciplina de Es
 [TAD SEQUENCIA](https://github.com/arthurmelo777/ed/sequencia)
 
 ### Linguagens utilizadas
-C#
 <img alt="Arthur-Csharp" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg">
