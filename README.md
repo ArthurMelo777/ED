@@ -8,19 +8,19 @@ Repositório criado para armazenas os códigos implementados na disciplina de Es
 [TAD PILHA](https://github.com/ArthurMelo777/ED/tree/main/Pilha)
 
 
-[TAD FILA](https://github.com/arthurmelo777/ed/fila)
+[TAD FILA](https://github.com/ArthurMelo777/ED/tree/main/Fila)
 
 
-[TAD DEQUE](https://github.com/arthurmelo777/ed/deque)
+[TAD DEQUE](https://github.com/ArthurMelo777/ED/tree/main/Deque)
 
 
-[TAD VETOR](https://github.com/arthurmelo777/ed/vetor)
+[TAD VETOR](https://github.com/ArthurMelo777/ED/tree/main/Vetor)
 
 
-[TAD LISTA](https://github.com/arthurmelo777/ed/lista)
+[TAD LISTA](https://github.com/ArthurMelo777/ED/tree/main/Lista)
 
 
-[TAD SEQUENCIA](https://github.com/arthurmelo777/ed/sequencia)
+[TAD SEQUENCIA](https://github.com/ArthurMelo777/ED/tree/main/Sequencia)
 
 ### Linguagens utilizadas
 <img alt="Arthur-Csharp" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg">
