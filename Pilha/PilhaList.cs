@@ -5,6 +5,7 @@ class StackEmpty : Exception {
 
 }
 
+
 class Node {
     private object element;
     private Node next, prev;
@@ -28,14 +29,33 @@ class Node {
     public Node getNext () { return next; }
 }
 
-class Stack {
+class LinkedList {
     private Node head, tail;
-    private int countSize = 0, t = -1;
-
-    public Stack () {
+    public LinkedList () {
         head = new Node (null, null, tail);
         tail = new Node (null, head, null);
     }
+
+    public void setHead (Node h) {
+        head = n;
+    }
+
+    public Node getHead () {
+        return head;
+    }
+
+    public void setTail (Node t) {
+        tail = t;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+}
+
+class Stack {
+    private LinkedList ll;
+    private int countSize = 0, t = -1;
 
     public int size () {
         return countSize;
@@ -49,9 +69,9 @@ class Stack {
     }
 
     public void push (object o) {
-        Node n = new Node(o, tail.getPrev(), tail);
-        tail.getPrev().setNext(n);
-        tail.setPrev(n);
+        Node n = new Node(o, ll.getTail().getPrev(), ll.getTail());
+        ll.getTail().getPrev().setNext(n);
+        ll.getTail().setPrev(n);
         countSize++;
     }
 
@@ -60,8 +80,8 @@ class Stack {
             throw new StackEmpty();
         }
         Node n = tail.getPrev();
-        tail.getPrev().getPrev().setNext(tail);
-        tail.setPrev(tail.getPrev().getPrev());
+        ll.getTail().getPrev().getPrev().setNext(ll.getTail());
+        ll.getTail().setPrev(ll.getTail().getPrev().getPrev());
         n.setNext(null);
         n.setPrev(null);
         countSize--;
@@ -69,7 +89,7 @@ class Stack {
     }
 
     public object top () {
-        return tail.getPrev().getElement();
+        return ll.getTail().getPrev().getElement();
     }
 }
 
