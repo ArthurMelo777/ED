@@ -9,7 +9,7 @@ class Stack {
 
     public bool isEmpty () {}
 
-    public void push (object) {}
+    public void push (object o) {}
 
     public object pop () {} throw StackEmpty;
     

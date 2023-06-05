@@ -1,10 +1,6 @@
-// Classe Pilha implementada com lista ligada + classe de testes
-using System;
-
-class StackEmpty : Exception {
+class QueueEmpty : Exception {
 
 }
-
 
 class Node {
     private object element;
@@ -37,7 +33,7 @@ class LinkedList {
     }
 
     public void setHead (Node h) {
-        head = n;
+        head = h;
     }
 
     public Node getHead () {
@@ -53,59 +49,55 @@ class LinkedList {
     }
 }
 
-class Stack {
-    private LinkedList stack = new LinkedList();
-    private int countSize = 0, t = -1;
-
+class Queue {
+    private LinkedList queue = new LinkedList();
+    private int countSize = 0;
     public int size () {
         return countSize;
     }
 
     public bool isEmpty () {
-        if (countSize==0) {
+        if (countSize == 0) {
             return true;
         }
         return false;
     }
 
-    public void push (object o) {
-        Node n = new Node(o, stack.getTail().getPrev(), stack.getTail());
-        stack.getTail().getPrev().setNext(n);
-        stack.getTail().setPrev(n);
+    public void enqueue (object o) {
+        Node n = new Node(o, queue.getTail().getPrev(), queue.getTail());
+        queue.getTail().getPrev().setNext(n);
+        queue.getTail().setPrev(n);
         countSize++;
     }
 
-    public object pop () {
-        if (isEmpty()) {
-            throw new StackEmpty();
-        }
-        Node n = stack.getTail().getPrev();
-        stack.getTail().getPrev().getPrev().setNext(stack.getTail());
-        stack.getTail().setPrev(stack.getTail().getPrev().getPrev());
+    public object dequeue () {
+        Node n = queue.getHead().getNext();
+        queue.getHead().setNext(n.getNext());
+        n.getNext().setPrev(queue.getHead());
         n.setNext(null);
         n.setPrev(null);
         countSize--;
+
         return n.getElement();
     }
-
-    public object top () {
-        return stack.getTail().getPrev().getElement();
+    
+    public object first () {
+        return queue.getHead().getNext().getElement();
     }
 }
 
 class Program {
     public static void Main () {
-        Stack s = new Stack();
-
-        Console.WriteLine(s.size());
-        Console.WriteLine(s.isEmpty());
-        s.push(1);
-        s.push(2);
-        s.push(3);
-        Console.WriteLine(s.size());
-        Console.WriteLine(s.isEmpty());
-        Console.WriteLine(s.pop());
-        Console.WriteLine(s.size());
-        Console.WriteLine(s.isEmpty());
+        Queue q = new Queue();
+        Console.WriteLine(q.size());
+        Console.WriteLine(q.isEmpty());
+        q.enqueue(1);
+        q.enqueue(2);
+        q.enqueue(3);
+        Console.WriteLine(q.size());
+        Console.WriteLine(q.isEmpty());
+        Console.WriteLine(q.dequeue());
+        Console.WriteLine(q.size());
+        Console.WriteLine(q.isEmpty());
     }
 }

@@ -9,10 +9,10 @@ class Queue {
 
     public bool isEmpty () {}
 
-    public void enqueue (object) {}
+    public void enqueue (object o) {}
 
-    public object dequeue () {} throw StackEmpty;
+    public object dequeue () {} throw QueueEmpty;
     
-    public object first () {} throw StackEmpty;
+    public object first () {} throw QueueEmpty;
 }
 ```
