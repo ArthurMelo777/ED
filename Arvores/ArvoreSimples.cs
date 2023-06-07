@@ -117,24 +117,36 @@ class Tree {
     }
 
     public int height (Node v) {
-        // oq é max?
+        if (isExternal(v)) {
+            return 0;
+        }
+        else {
+            int h = 0;
+            foreach (Node child in children(v)) {
+                h = Math.Max(h, height(child));
+            }
+            return 1+h;
+        }
     }
 
     public IEnumerator elements () {
         ArrayList els = new ArrayList();
-        ordenarElementos(r);
+        orderElements(r);
         return els.GetEnumerator();
     }
 
     public IEnumerator nodes () {
         ArrayList nds = new ArrayList();
-        ordenarNos(r);
+        orderNodes(r);
         return nds.GetEnumerator();
     }
     public int size () {
-        return nodes.Count();
+        return countSize;
     }
     public bool isEmpty () {
+        if (root == null) {
+            return true;
+        }
         return false;
     }
     public object replace (Node v, object o) {
@@ -142,18 +154,18 @@ class Tree {
         v.setElement(o);
         return e;
     }
-    private void ordenarElementos (Node v) {
+    private void orderElements (Node v) { // preOrder
         els.Add(v.getElement());
         foreach (Node child in children(v))
         {
-            ordenarElementos(child);
+            orderElements(child);
         }
     }
 
-    private void ordenarNos (Node v) {
+    private void orderNodes (Node v) { // preOrder
         nds.Add(v);
         foreach (Node child in children(v)) {
-            ordenarNos(child);
+            orderNodes(child);
         }
     }
 }
