@@ -37,6 +37,8 @@ class Node {
 class Tree {
     private Node r;
     private int countSize;
+    ArrayList els = new ArrayList();
+    ArrayList nds = new ArrayList();
 
     public Tree (object o) {
         r = new Node (null, o);
@@ -122,22 +124,20 @@ class Tree {
         }
         else {
             int h = 0;
-            IEnumerator childrens = children(v);
-            foreach (Node child in childrens) {
-                h = Math.Max(h, height(child));
+            var childrens = children(v);
+            while (childrens.MoveNext()) {
+                h = Math.Max(h, height((Node) childrens.Current));
             }
             return 1+h;
         }
     }
 
     public IEnumerator elements () {
-        ArrayList els = new ArrayList();
         orderElements(r);
         return els.GetEnumerator();
     }
 
     public IEnumerator nodes () {
-        ArrayList nds = new ArrayList();
         orderNodes(r);
         return nds.GetEnumerator();
     }
@@ -157,22 +157,31 @@ class Tree {
     }
     private void orderElements (Node v) { // preOrder
         els.Add(v.getElement());
-        foreach (Node child in children(v))
-        {
-            orderElements(child);
+        var childrens = children(v);
+        while (childrens.MoveNext()) {
+            orderElements((Node) childrens.Current);
         }
     }
 
     private void orderNodes (Node v) { // preOrder
         nds.Add(v);
-        foreach (Node child in children(v)) {
-            orderNodes(child);
+        var childrens = children(v);
+        while (childrens.MoveNext()) {
+            orderNodes((Node) childrens.Current);
         }
     }
 }
 
 class Program {
     public static void Main () {
+        Tree t = new Tree(1);
 
+        t.addChild(t.root(), 2);
+
+        var enumerator = t.elements();
+
+        while (enumerator.MoveNext()) {
+            Console.WriteLine(enumerator.Current);
+        }
     }
 }
