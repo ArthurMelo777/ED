@@ -1,312 +1,167 @@
 ﻿using System;
 using System.Collections;
 
+
 class Node {
-    private object element;
-    private Node p;
-    private ArrayList c = new ArrayList();
+    private Node parent; // pai
+    private Node leftChild; // filho esquerdo
+    private Node rightChild; // filho direito
+    private int key; // chave
 
-    public Node (Node p, object e) {
-        this.p = p;
-        this.element = e;
-    }
-    public Node parent () {
-        return p;
-    }
-    public IEnumerator children () {
-        return c.GetEnumerator();
-    }
-    public int childrenNumber () {
-        return c.Count;
-    }
-    public void addChild (Node o) {
-        c.Add(o);
-    }
-    public void removeChild (Node o) {
-        c.Remove(o);
-    }
-    public void setElement (object o) {
-        element = o;
+    public Node (Node p, Node l, Node r, int k) {
+        parent = p;
+        leftChild = l;
+        rightChild = r;
+        key = k;
     }
 
-    public object getElement () {
-        return element;
+    public void setParent (Node p) {
+        parent = p;
     }
 
-    //public override string ToString() {
-    //    return $"{element}";
-    //}
+    public Node getParent () {
+        return parent;
+    }
+
+    public void setLeftChild (Node l) {
+        leftChild = l;
+    }
+
+    public Node getLeftChild () {
+        return leftChild;
+    }
+
+    public void setRightChild (Node r) {
+        rightChild = r;
+    }
+
+    public Node getRightChild () {
+        return rightChild;
+    }
+
+    public void setKey (int k) {
+        key = k;
+    }
+
+    public int getKey () {
+        return key;
+    }
 }
 
-class Tree {
-    private Node r;
+class BinarySearchTree {
+    // atributos
+    private Node root;
+    private ArrayList els;
+    private ArrayList nds;
     private int countSize;
-    ArrayList els;
-    ArrayList nds;
 
-    public Tree (object o) { // ok
-        r = new Node (null, o);
-        countSize = 1;
+    //metodos
+    public BinarySearchTree (int kr) {
+        root = new Node (null, null, null, kr);
+        countSize = 0;
     }
 
-    public Node root () { // ok
-        return r;
+    public void setRoot (Node p) {
+        root = p;
     }
 
-    public Node parent (Node v) { // ok
-        return v.parent();
+    public Node getRoot () {
+        return root;
     }
 
-    public IEnumerator children (Node v) { // ok
-        return v.children();
+    public int compare (int k1, int k2) {
+        if (k1 < k2) {
+            return k1;
+        }
+        else {
+            return k2;
+        }
     }
 
-    public bool isExternal (Node v) { // ok
-        if (v.childrenNumber() == 0) {
+    public bool isExternal (Node v) {
+        if (v.getLeftChild() == null && v.getRightChild() == null) {
             return true;
         }
         return false;
     }
 
-    public bool isInternal (Node v) { // ok
+    public bool isInternal (Node v) {
         if (isExternal(v)) {
             return false;
         }
         return true;
     }
-
-    public bool isRoot (Node v) { // ok
-        if (v == r) {
-            return true;
+    public Node search (Node node, int key) { // "feito"
+        if (isExternal(node)) {
+            return node;
         }
-        return false;
-    }
-
-    public void addChild (Node v, object o) { // ok
-        Node n = new Node(v, o);
-        v.addChild(n);
-        countSize++;
-    }
-
-    public object remove (Node v) { // +/- ok, o elemento filho do removido não se torna filho do pai do removido
-        Node p = v.parent();
-        if (p != null || isExternal(v)) {
-            p.removeChild(v);
+        if (key < node.getKey()) {
+            return search(node.getLeftChild(), key);
+        }
+        else if (key == node.getKey()) {
+            return node;
         }
         else {
-            throw new SystemException();
-        }
-
-        object o = v.getElement();
-        countSize--;
-        return o;
-    }
-
-    public void swapElements (Node v, Node w) { // ok
-        object aux = v.getElement();
-        v.setElement(w.getElement());
-        w.setElement(aux);
-    }
-
-    public int depth (Node v) { // ok
-        int d = depth_rec(v);
-        return d;
-    }
-
-    private int depth_rec (Node v) { // ok
-        if (v == r) {
-            return 0;
-        }
-        else {
-            return 1 + depth_rec(v.parent());
+            return search(node.getRightChild(), key);
         }
     }
 
-    public int height (Node v) { // ok
-        if (isExternal(v)) {
-            return 0;
-        }
-        else {
-            int h = 0;
-            var childrens = children(v);
-            while (childrens.MoveNext()) {
-                h = Math.Max(h, height((Node) childrens.Current));
+    public Node include (int key) { // "feito"
+        return include_rec(root, key);
+    }
+
+    public Node include_rec (Node node, int key) { // "feito"
+        if (isExternal(node)) {
+            node = node.getParent();
+            Node n;
+            if (key < node.getKey()) {
+                n = new Node (node, null, null, key);
+                node.setLeftChild(n);
             }
-            return 1+h;
+            else {
+                n = new Node (node, null, null, key);
+                node.setRightChild(n);
+            }
+
+            return n;
+        }
+
+        if (key < node.getKey()) {
+            return include_rec(node.getLeftChild(), key);
+        }
+
+        else if (key == node.getKey()) {
+            return node;
+        }
+
+        else {
+            return include_rec(node.getRightChild(), key);
         }
     }
 
-    public IEnumerator elements () { // ok
-        els = new ArrayList();
-        orderElements(r);
-        return els.GetEnumerator();
+    public int remove (int key) { // "a fazer"
+        Node node = search(root, key);
+
     }
 
-    public IEnumerator nodes () {
-        nds = new ArrayList();
-        orderNodes(r);
-        return nds.GetEnumerator();
-    }
-    public int size () { // ok
-        return countSize;
-    }
-    public bool isEmpty () {
-        if (root() == null) {
-            return true;
-        }
-        return false;
-    }
-    public object replace (Node v, object o) {
-        object e = v.getElement();
-        v.setElement(o);
-        return e;
-    }
-    private void orderElements (Node v) { // preOrder - ok
-        els.Add(v.getElement());
-        var childrens = children(v);
-        while (childrens.MoveNext()) {
-            orderElements((Node) childrens.Current);
-        }
-    }
+    public void inOrder (Node node) {} // "a fazer"
 
-    private void orderNodes (Node v) { // preOrder
-        nds.Add(v);
-        var childrens = children(v);
-        while (childrens.MoveNext()) {
-            orderNodes((Node) childrens.Current);
-        }
-    }
+    public void preOrder (Node node) {} // "a fazer"
+
+    public void postOrder (Node node) {} // "a fazer"
+
+    public int height (Node node) {} // "a fazer"
+
+    public int depth (Node node) {} // "a fazer"
+
+    public void print () {} // "a fazer"
+
+    public IEnumerator nodes () {} // "a fazer"
+
+    public IEnumerator elements () {} // "a fazer"
+
+    public int size () {} // "a fazer"
+
+    public bool isEmpty () {} // "a fazer"
+    
 }
-
-class Program {
-    public static void Main () {
-        
-        Tree t = new Tree(1);
-
-        // TESTE 1 - Pegar root
-        Node root = t.root();
-        //Console.WriteLine(root);
-
-        // TESTE 2 - Add filho
-        t.addChild(t.root(), 2);
-        t.addChild(t.root(), 3);
-        var enumerator = t.root().children();
-        Node aux = t.root();
-        int i = 3;
-
-        while (enumerator.MoveNext()) {
-            i++;
-            aux = (Node) enumerator.Current;
-            t.addChild(aux, i);
-        }
-        //Console.WriteLine(t.size());
-
-        // TESTE 3 - Testar pai
-        //Console.WriteLine(root.parent());
-
-        // TESTE 4 - Filhos
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(aux.getElement());
-        //}
-
-        // TESTE 5 - Interno?
-        //enumerator.Reset();
-        //Console.WriteLine(t.isInternal(t.root()));
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(t.isInternal(aux));
-        //}
-
-        // TESTE 6 - Externo?
-        //enumerator.Reset();
-        //Console.WriteLine(t.isExternal(t.root()));
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(t.isExternal(aux));
-        //}
-
-        // TESTE 7 - Raiz?
-        //enumerator.Reset();
-        //Console.WriteLine(t.isRoot(t.root()));
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(t.isRoot(aux));
-        //}
-
-        //TESTE 8 - Remover filho
-        //t.remove(aux);
-        //enumerator = t.root().children();
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(aux.getElement());
-        //}
-        //Console.WriteLine(t.size());
-        
-        // TESTE 9 - Trocar elementos
-        //t.swapElements(t.root(), aux);
-        //enumerator = t.root().children();
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(aux.getElement());
-        //}
-
-        // TESTE 10 - Profundidade
-        //Console.WriteLine(t.depth(t.root()));
-        //enumerator = t.root().children();
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //}
-        //Console.WriteLine(t.depth(aux));
-        //enumerator = aux.children();
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //}
-        //Console.WriteLine(t.depth(aux));
-
-        // TESTE 11 - Altura
-        //Console.WriteLine(t.height(t.root()));
-        //enumerator = t.root().children();
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //}
-        //Console.WriteLine(t.height(aux));
-        //enumerator = aux.children();
-        //while (enumerator.MoveNext()) {
-        //   aux = (Node) enumerator.Current;
-        //}
-        //Console.WriteLine(t.height(aux));
-
-        // TESTE 12 - Elementos
-        //enumerator = t.elements();
-        //while (enumerator.MoveNext()) {
-        //    Console.WriteLine(enumerator.Current);
-        //}
-
-        // TESTE 13 - Nós
-        //enumerator = t.nodes();
-        //while (enumerator.MoveNext()) {
-        //    aux = (Node) enumerator.Current;
-        //    Console.WriteLine(aux.getElement());
-        //}
-
-        // TESTE 14 - Tamanho
-        //Console.WriteLine(t.size());
-
-        // TESTE 15 - Arvore vazia
-        //Console.WriteLine(t.isEmpty());
-
-        // TESTE 16 - Substituir elemento
-        //t.replace(t.root(), 0);
-        //enumerator = t.elements();
-        //while (enumerator.MoveNext()) {
-        //    Console.WriteLine(enumerator.Current);
-        //}
-    }
-}
-
-//          1
-//        /   \
-//       2     3
-//      /       \
-//     4         5

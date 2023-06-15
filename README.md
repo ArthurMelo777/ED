@@ -22,5 +22,8 @@ Repositório criado para armazenas os códigos implementados na disciplina de Es
 
 [TAD SEQUENCIA](https://github.com/ArthurMelo777/ED/tree/main/Sequencia)
 
+
+[TAD ARVORE](https://github.com/ArthurMelo777/ED/tree/main/Arvores)
+
 ### Linguagens utilizadas
 <img alt="Arthur-Csharp" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg">
