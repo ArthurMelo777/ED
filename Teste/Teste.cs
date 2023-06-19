@@ -11,10 +11,10 @@ class Node {
     private Node rightChild; // filho direito
     private object key; // chave
 
-    public Node (Node p, Node l, Node r, object k) {
+    public Node (Node p, object k) {
         parent = p;
-        leftChild = l;
-        rightChild = r;
+        leftChild = null;
+        rightChild = null;
         key = k;
     }
 
@@ -87,7 +87,7 @@ class BinarySearchTree {
 
     //metodos
     public BinarySearchTree (object kr) {
-        root = new Node (null, null, null, kr);
+        root = new Node (null, kr);
         countSize = 0;
     }
 
@@ -143,12 +143,12 @@ class BinarySearchTree {
         node = node.getParent();
 
         if (comp.compare(key, node.getKey()) == -1) {
-            n = new Node(node, null, null, key);
+            n = new Node(node, key);
             node.setLeftChild(n);
         }
 
         else if (comp.compare(key, node.getKey()) == 1) {
-            n = new Node(node, null, null, key);
+            n = new Node(node, key);
             node.setRightChild(n);
         }
 
@@ -253,15 +253,69 @@ class BinarySearchTree {
         return false;
     }
     
-    public void inOrder (Node node) {} // "a fazer"
+    public void inOrder (Node node) { // "feito"
+        if (isInternal(node)) {
+            inOrder(node.getLeftChild());
+        }
+        Console.WriteLine(node.getKey());
+        if (isInternal(node)) {
+            inOrder(node.getRightChild());
+        }
+    } 
 
-    public void preOrder (Node node) {} // "a fazer"
+    public void preOrder (Node node) { // "feito"
+        Console.WriteLine(node.getKey());
+        if (node.getLeftChild() != null) {
+            preOrder(node.getLeftChild());
+        }
+        if (node.getRightChild() != null) {
+            preOrder(node.getRightChild());
+        }
+    } 
 
-    public void postOrder (Node node) {} // "a fazer"
+    public void postOrder (Node node) { // "feito"
+        if (node.getLeftChild() != null) {
+            postOrder(node.getLeftChild());
+        }
+        if (node.getRightChild() != null) {
+            postOrder(node.getRightChild());
+        }
+        Console.WriteLine(node.getKey());
+    }
 
-    public IEnumerator nodes () {} // "a fazer"
+    public IEnumerator nodes () { // "feito"
+        nds = new ArrayList();
+        orderNodes(root);
+        return nds.GetEnumerator();
+    }
 
-    public IEnumerator elements () {} // "a fazer"
+    private void orderNodes (Node node) { // "feito"
+        nds.Add(node);
+        if (node.getLeftChild() != null) {
+            orderNodes(node.getLeftChild());
+        }
+        if (node.getRightChild() != null) {
+            orderNodes(node.getRightChild());
+        }
+    }
 
-    public void print () {} // "a fazer"
+    public IEnumerator elements () { // "feito"
+        els = new ArrayList();
+        orderElements(root);
+        return els.GetEnumerator();
+    }
+
+    private void orderElements (Node node) { // "feito"
+        els.Add(node.getKey());
+        if (node.getLeftChild() != null) {
+            orderElements(node.getLeftChild());
+        }
+        if (node.getRightChild() != null) {
+            orderElements(node.getRightChild());
+        }
+    }
+
+    public void print () { // "a fazer"
+        // pense em um plano cartesiano
+    }
 }
