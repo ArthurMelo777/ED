@@ -84,6 +84,8 @@ class BinarySearchTree {
     private ArrayList nds;
     private int countSize;
     private Comparator comp;
+    private object[,] matriz;
+    int x, y;
 
     //metodos
     public BinarySearchTree (object kr) {
@@ -108,7 +110,7 @@ class BinarySearchTree {
     }
 
     public bool isExternal (Node v) {
-        if (v.getLeftChild() == null && v.getRightChild() == null) {
+        if (v.getLeftChild() == null && v.getRightChild() == null && v != root) {
             return true;
         }
         return false;
@@ -316,6 +318,73 @@ class BinarySearchTree {
     }
 
     public void print () { // "a fazer"
-        // pense em um plano cartesiano
+        x = xInOrder(root);
+        y = height(root);
+        matriz = new object[x, y];
+        Node n;
+
+        var enumerator = nodes();
+
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                matriz[i,j] = null;
+            }
+        }
+
+        while (enumerator.MoveNext()) {
+            n = (Node) enumerator.Current;
+            matriz[foundX(n), foundY(n)] = n.getKey();
+        }
+
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                Console.WriteLine(matriz[i, j]);
+            }
+        }
+    }
+
+    private int xInOrder (Node node) {
+        if (isInternal(node)) {
+            return 1+xInOrder(node.getLeftChild());
+        }
+        if (isExternal(node)) {
+            return 0;
+        }
+        if (isInternal(node)) {
+            return 1+xInOrder(node.getRightChild());
+        }
+        return 0;
+    }
+
+    private int foundX (Node node) {
+        return xInOrder(node);
+    }
+
+    private int foundY (Node node) {
+        return height(node);
+    }
+}
+
+class Program {
+    public static void Main () {
+        BinarySearchTree bst = new BinarySearchTree(5);
+        Comparator c = new Comparator();
+        Node n;
+
+        // set comparator
+        bst.setComp(c);
+
+        // root
+        Console.WriteLine(bst.getRoot().getKey());
+        n = new Node(null, 6);
+        bst.setRoot(n);
+        Console.WriteLine(bst.getRoot().getKey());
+
+        // externo e interno
+        Console.WriteLine(bst.isInternal(bst.getRoot()));
+        Console.WriteLine(bst.isExternal(bst.getRoot()));
+
+        // search
+        
     }
 }
