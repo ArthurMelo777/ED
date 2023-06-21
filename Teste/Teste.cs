@@ -110,7 +110,7 @@ class BinarySearchTree {
     }
 
     public bool isExternal (Node v) {
-        if (v.getLeftChild() == null && v.getRightChild() == null && v != root) {
+        if (v == null) {
             return true;
         }
         return false;
@@ -127,10 +127,10 @@ class BinarySearchTree {
         if (isExternal(node)) {
             return node;
         }
-        if ((int) key < (int) node.getKey()) {
+        if (comp.compare(key, node.getKey()) == -1) {
             return search(node.getLeftChild(), key);
         }
-        else if (key == node.getKey()) {
+        else if (comp.compare(key, node.getKey()) == 0) {
             return node;
         }
         else {
@@ -139,10 +139,10 @@ class BinarySearchTree {
     }
 
     public Node include (object key) { // "feito"
-        Node node = search(root, key);
+        Node node = search(root, key).getParent();
         Node n = null;
 
-        node = node.getParent();
+        Console.WriteLine(node);
 
         if (comp.compare(key, node.getKey()) == -1) {
             n = new Node(node, key);
@@ -228,7 +228,7 @@ class BinarySearchTree {
 
     public int height (Node node) { // "feito"
         if (isExternal(node)) {
-            return -1;
+            return 0;
         }
         else {
             int lft = height(node.getLeftChild());
@@ -318,9 +318,11 @@ class BinarySearchTree {
     }
 
     public void print () { // "a fazer"
-        x = xInOrder(root);
-        y = height(root);
+        x = totalX(root);
+        y = height(root)+1;
+        Console.WriteLine($"{x}, {y}");
         matriz = new object[x, y];
+        Console.WriteLine(matriz);
         Node n;
 
         var enumerator = nodes();
@@ -333,7 +335,8 @@ class BinarySearchTree {
 
         while (enumerator.MoveNext()) {
             n = (Node) enumerator.Current;
-            matriz[foundX(n), foundY(n)] = n.getKey();
+            Console.WriteLine($"{n.getKey()} = {foundX(n)+1}, {foundY(n)}");
+            matriz[foundX(n)-1, foundY(n)] = n.getKey();
         }
 
         for (int i = 0; i < x; i++) {
@@ -343,21 +346,21 @@ class BinarySearchTree {
         }
     }
 
-    private int xInOrder (Node node) {
+    public int totalX (Node node) {
         if (isInternal(node)) {
-            return 1+xInOrder(node.getLeftChild());
+            return 1+totalX(node.getLeftChild());
         }
         if (isExternal(node)) {
             return 0;
         }
         if (isInternal(node)) {
-            return 1+xInOrder(node.getRightChild());
+            return 1+totalX(node.getRightChild());
         }
         return 0;
     }
 
     private int foundX (Node node) {
-        return xInOrder(node);
+        return totalX(node);
     }
 
     private int foundY (Node node) {
@@ -385,6 +388,37 @@ class Program {
         Console.WriteLine(bst.isExternal(bst.getRoot()));
 
         // search
-        
+        Console.WriteLine(bst.search(bst.getRoot(), bst.getRoot().getKey()));
+        bst.print();
+
+        // include ERRO
+
+        // remove ERRO
+
+        // height
+        Console.WriteLine(bst.height(bst.getRoot()));
+
+        // depth
+        Console.WriteLine(bst.depth(bst.getRoot()));
+
+        // size
+        Console.WriteLine(bst.size());
+
+        // isEmpty
+
+        // inOrder
+        bst.inOrder(bst.getRoot());
+
+        // preOrder
+        bst.preOrder(bst.getRoot());
+
+        // postOrder
+        bst.postOrder(bst.getRoot());
+
+        // nodes
+
+        // elements
+
+        // print
     }
 }
