@@ -1,0 +1,16 @@
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.csproj.AssemblyReference.cache
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.AssemblyInfoInputs.cache
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.AssemblyInfo.cs
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.csproj.CoreCompileInputs.cache
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\teste.exe
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\teste.deps.json
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\teste.runtimeconfig.json
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\teste.runtimeconfig.dev.json
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\teste.dll
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\ref\teste.dll
+C:\Users\20221014040003\ED\teste\bin\Debug\net5.0\teste.pdb
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.dll
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\ref\teste.dll
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.pdb
+C:\Users\20221014040003\ED\teste\obj\Debug\net5.0\teste.genruntimeconfig.cache

@@ -128,9 +128,17 @@ class BinarySearchTree {
             return 0;
         }
         else {
-            int lft = height(node.getLeftChild());
-            int rgt = height(node.getRightChild());
-            return Math.Max(lft, rgt);
+            int h = 0;
+            int children_height;
+            if (node.getLeftChild() != null) {
+                children_height = height(node.getLeftChild());
+                h = Math.Max(h, children_height);
+            }
+            if (node.getRightChild() != null) {
+                children_height = height(node.getRightChild());
+                h = Math.Max(h, children_height);
+            }
+            return h+1;
         }
     } 
 
@@ -357,9 +365,10 @@ class Program {
         bst.include(7);
         bst.include(9);
         bst.include(10);
+        Console.WriteLine(bst.height(bst.getRoot()));
 
         // remove
-        bst.remove(8);
+        bst.remove(3);
         bst.inOrder(bst.getRoot());
 
         // height

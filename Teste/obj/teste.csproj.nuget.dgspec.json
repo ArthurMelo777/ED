@@ -1,30 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\20221014040003\\Desktop\\projetos\\ED\\teste\\teste.csproj": {}
+    "C:\\Users\\20221014040003\\ED\\teste\\teste.csproj": {}
   },
   "projects": {
-    "C:\\Users\\20221014040003\\Desktop\\projetos\\ED\\teste\\teste.csproj": {
+    "C:\\Users\\20221014040003\\ED\\teste\\teste.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\20221014040003\\Desktop\\projetos\\ED\\teste\\teste.csproj",
+        "projectUniqueName": "C:\\Users\\20221014040003\\ED\\teste\\teste.csproj",
         "projectName": "teste",
-        "projectPath": "C:\\Users\\20221014040003\\Desktop\\projetos\\ED\\teste\\teste.csproj",
+        "projectPath": "C:\\Users\\20221014040003\\ED\\teste\\teste.csproj",
         "packagesPath": "C:\\Users\\20221014040003\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\20221014040003\\Desktop\\projetos\\ED\\teste\\obj\\",
+        "outputPath": "C:\\Users\\20221014040003\\ED\\teste\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\20221014040003\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\20221014040003\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -35,16 +37,15 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net5.0": {
+          "targetAlias": "net5.0",
           "imports": [
             "net461",
             "net462",
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -53,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
         }
       }
     }
