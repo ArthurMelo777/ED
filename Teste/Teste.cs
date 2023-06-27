@@ -256,10 +256,16 @@ class BinarySearchTree {
 
         // no com dois filhos
         if (node.countChilds() == 2) {
-            Node suc = sucessor(node, node.getRightChild()); // node a ser removido, node pai do node a ser comparado
-
-            suc.getParent().setLeftChild(suc.getLeftChild());
-            node.setKey(suc.getKey());
+            Node suc;
+            if (node.getRightChild().getLeftChild() == null) {
+                node.setKey(node.getRightChild().getKey());
+                node.setRightChild(null);
+            }
+            else {
+                suc = sucessor(node.getRightChild());
+                node.setKey(suc.getKey());
+                suc.getParent().setLeftChild(null);
+            }
 
             return node.getKey();
         }
@@ -267,12 +273,12 @@ class BinarySearchTree {
         return null;
     }
 
-    private Node sucessor (Node node, Node parent) { // "feito"
-        // se o filho esquerdo do filho direito for maior que o seu pai && o filho esquerdo do filho direito for menor que o no a ser removido
-        if ((comp.compare(parent.getLeftChild().getKey(), parent.getKey()) == -1) && comp.compare(parent.getLeftChild().getKey(), node.getKey()) == 1) {
-            return parent.getLeftChild();
+    private Node sucessor (Node node) { // "feito"
+        if (node.getLeftChild() == null) {
+            return node;
+        } else {
+            return sucessor(node.getLeftChild());
         }
-        return sucessor(node, parent.getLeftChild());
     }
     
     public void inOrder (Node node) { // "feito"
@@ -345,17 +351,17 @@ class Program {
         bst.setComp(c);
 
         // root
-        Console.WriteLine(bst.getRoot().getKey()); // 5
+        //Console.WriteLine(bst.getRoot().getKey()); // 5
         n = new Node(null, 6);
         bst.setRoot(n);
-        Console.WriteLine(bst.getRoot().getKey()); // 6
+        //Console.WriteLine(bst.getRoot().getKey()); // 6
 
         // externo e interno
-        Console.WriteLine(bst.isInternal(bst.getRoot())); // False
-        Console.WriteLine(bst.isExternal(bst.getRoot())); // True
+        //Console.WriteLine(bst.isInternal(bst.getRoot())); // False
+        //Console.WriteLine(bst.isExternal(bst.getRoot())); // True
 
         // search
-        Console.WriteLine(bst.search(bst.getRoot(), bst.getRoot().getKey()).getKey());
+        //Console.WriteLine(bst.search(bst.getRoot(), bst.getRoot().getKey()).getKey());
 
         // include
         bst.include(5);
@@ -365,10 +371,11 @@ class Program {
         bst.include(7);
         bst.include(9);
         bst.include(10);
-        Console.WriteLine(bst.height(bst.getRoot()));
+        //Console.WriteLine(bst.height(bst.getRoot()));
 
         // remove
-        bst.remove(3);
+        bst.remove(8);
+        //Console.WriteLine(bst.depth(bst.getRoot().getLeftChild()));
         bst.inOrder(bst.getRoot());
 
         // height
