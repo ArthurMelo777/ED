@@ -1,5 +1,7 @@
 using System;
 
+// Min Heap
+
 class Node {
     private Node parent;
     private Node leftChild, rightChild;
@@ -48,14 +50,13 @@ class Node {
 
 }
 
-class Heap {
-    private Node root;
-    private int qtd;
+class Item {
+    // object value, key;
+}
 
-    public Heap (Node r) {
-        root = r;
-        qtd = 1;
-    }
+class Heap {
+    private Node root, ultimo;
+    private int qtd = 0;
 
     public void swap (Node n, Node p);
 
@@ -63,9 +64,9 @@ class Heap {
 
     public void heapifyUp (Node n);
 
-    public void insert (object value, object key);
+    public void insert (Item i);
 
-    public object remove (object key);
+    public object removeMin ();
 
     public void print ();
 }
