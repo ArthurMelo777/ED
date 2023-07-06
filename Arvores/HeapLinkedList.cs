@@ -8,6 +8,14 @@ class Node {
     private object key;
     private object value;
 
+    public Node (Node p, object k, object v) {
+        parent = p;
+        leftChild = null;
+        rightChild = null;
+        key = k;
+        value = v;
+    }
+
     public void setParent (Node p) {
         parent = p;
     }
@@ -125,7 +133,7 @@ class Heap {
         }
     }
 
-    public void upHeap (Node n) { // compara filho com o pai
+    public void upHeap (Item i) { // compara filho com o pai
         
     }
 
