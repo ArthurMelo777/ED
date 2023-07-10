@@ -164,6 +164,7 @@ class Heap {
         if (r.getLeftChild() == null) {
             newNode = new Node(r, i.getKey(), i.getValue());
             r.setLeftChild(newNode);
+            //Console.WriteLine($"caso 1 = {tail.getKey()}");
             return newNode;
         }
 
@@ -171,36 +172,42 @@ class Heap {
         else if (tail.getParent().getRightChild() == null) {
             newNode = new Node(tail.getParent(), i.getKey(), i.getValue());
             tail.getParent().setRightChild(newNode);
+            //Console.WriteLine($"caso 2 = {tail.getKey()}");
             return newNode;
         }
 
-        // capacidade == tamanho
-        else if (capacity(r) == size(r)) {
-            Node n = r;
+        // ultima linha completa?
+        else if (capacity(root) == size(root)) {
+            //Console.WriteLine($"T = {size(r)}, C = {capacity(r)}");
+            Node n = root;
             while (n.getLeftChild() != null) {
                 n = n.getLeftChild();
             }
             newNode = new Node(n, i.getKey(), i.getValue());
+            //Console.WriteLine(newNode.getKey());
             n.setLeftChild(newNode);
+            //Console.WriteLine($"caso 3 = {tail.getKey()}");
             return newNode;
         }
 
         // ultimo caso = todos os anteriores falham
         else {
-            findAndInsert(r.getRightChild(), i);
+            //Console.WriteLine($"caso 4 = {tail.getKey()}");
+            return findAndInsert(r.getRightChild(), i);
         }
-
-        return null;
     }
 
     public int size (Node r) {
         if (r.getLeftChild() != null) {
             return 1+size(r.getLeftChild());
         }
-        return 0;
+        if (r.countChilds() == 0) {
+            return 0;
+        }
         if (r.getRightChild() != null) {
             return 1+size(r.getRightChild());
         }
+        return 0;
     }
 
     public int capacity (Node r) {
@@ -214,27 +221,24 @@ class Heap {
     }
 
     public int height (Node node) { // "feito"
-        if (node.countChilds() == 0) {
-            return 0;
+        int count = 0;
+
+        while (node != null) {
+            node = node.getLeftChild();
+            count++;
         }
-        else {
-            int h = 0;
-            int children_height;
-            if (node.getLeftChild() != null) {
-                children_height = height(node.getLeftChild());
-                h = Math.Max(h, children_height);
-            }
-            if (node.getRightChild() != null) {
-                children_height = height(node.getRightChild());
-                h = Math.Max(h, children_height);
-            }
-            return h+1;
-        }
+
+        return count;
     }
 
     public void print (Node node) { // "feito"
         if (node != null) {
-            Console.WriteLine(node.getKey());
+            if (node.countChilds() != 0) {
+                Console.WriteLine($"{node.getKey()} eh pai de {node.getLeftChild().getKey()} e {node.getRightChild().getKey()} ");
+            }
+            else {
+                Console.WriteLine($"{node.getKey()} nao tem filhos ");
+            }
             print(node.getLeftChild());
             print(node.getRightChild());
         }
@@ -255,6 +259,21 @@ class Program {
         h.insert(i);
         i = new Item(5, 5);
         h.insert(i);
-        h.print(h.getRoot());
+        i = new Item(6, 6);
+        h.insert(i);
+        i = new Item(7, 7);
+        h.insert(i);
+        i = new Item(8, 8);
+        h.insert(i);
+        i = new Item(9, 9);
+        h.insert(i);
+        i = new Item(10, 10);
+        h.insert(i);
+        i = new Item(11, 11);
+        h.insert(i);
+        i = new Item(12, 12);
+        h.insert(i);
+
+        //h.print(h.getRoot());
     }
 }
