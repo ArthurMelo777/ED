@@ -101,9 +101,14 @@ class Comparator {
 }
 
 class Heap {
-    private Node root, ultimo;
-    private int qtd = 0;
+    private Node root, tail;
+    private int qtd;
     private Comparator comp = new Comparator();
+
+    public Heap (Item i) {
+        Node newNode = new Node (null, i.getKey(), i.getValue());
+        qtd = 1;
+    }
 
     public void swap (Node n, Node p) {
         Node aux = n;
@@ -133,11 +138,83 @@ class Heap {
         }
     }
 
-    public void upHeap (Item i) { // compara filho com o pai
+    public void upHeap (Node n) { // compara filho com o pai
         
     }
 
-    public void insert (Item i);
+    public void insert (Item i) {
+        findAndInsert(root, i);
+    }
+
+    public void findAndInsert (Node r, Item i) {
+        Node newNode;
+
+        // so a raiz
+        if (r.getLeftChild() == null) {
+            newNode = new Node(r, i.getKey(), i.getValue());
+            r.setLeftChild(newNode);
+        }
+
+        // sem filho direito
+        else if (tail.getParent().getRightChild() == null) {
+            newNode = new Node(tail.getParent(), i.getKey(), i.getValue());
+            tail.getParent().setRightChild(newNode);
+        }
+
+        // capacidade == tamanho
+        else if (capacity(r) == size(r)) {
+            Node n = r;
+            while (n.getLeftChild() != null) {
+                n = n.getLeftChild();
+            }
+            newNode = new Node(n, i.getKey(), i.getValue());
+            n.setLeftChild(newNode);
+        }
+
+        // ultimo caso = todos os anteriores falham
+        else {
+            findAndInsert(r.getRightChild(), i);
+        }
+    }
+
+    public int size (Node r) {
+        if (r.getLeftChild() != null) {
+            return 1+size(r.getLeftChild());
+        }
+        return 0;
+        if (r.getRightChild() != null) {
+            return 1+size(r.getRightChild());
+        }
+    }
+
+    public int capacity (Node r) {
+        int h = height(r);
+        int count = 0;
+        for (int i = 0; i < h; i++) {
+            count += Math.Pow(2, i);
+        }
+
+        return count;
+    }
+
+    public int height (Node node) { // "feito"
+        if (node.countChilds() == 0) {
+            return 0;
+        }
+        else {
+            int h = 0;
+            int children_height;
+            if (node.getLeftChild() != null) {
+                children_height = height(node.getLeftChild());
+                h = Math.Max(h, children_height);
+            }
+            if (node.getRightChild() != null) {
+                children_height = height(node.getRightChild());
+                h = Math.Max(h, children_height);
+            }
+            return h+1;
+        }
+    }
 
     public object removeMin ();
 
