@@ -60,7 +60,9 @@ class Node {
         if (leftChild == null && rightChild == null) {
             return 0;
         }
-        if ((leftChild != null && rightChild == null) || (leftChild == null && rightChild != null)) {
+        if ((leftChild != null && rightChild == null)
+        ||
+        (leftChild == null && rightChild != null)) {
             return 1;
         }
         return 2;
@@ -70,6 +72,11 @@ class Node {
 class Item {
     object value;
     object key;
+
+    public Item (object k, object v) {
+        key = k;
+        value = v;
+    }
 
     public void setKey (object k) {
         key = k;
@@ -102,12 +109,15 @@ class Comparator {
 
 class Heap {
     private Node root, tail;
-    private int qtd;
     private Comparator comp = new Comparator();
 
     public Heap (Item i) {
         Node newNode = new Node (null, i.getKey(), i.getValue());
-        qtd = 1;
+        root = newNode;
+    }
+
+    public Node getRoot () {
+        return root;
     }
 
     public void swap (Node n, Node p) {
@@ -120,45 +130,67 @@ class Heap {
 
     public void downHeap (Node n) { // compara pai com filhos
         // no folha
-        if (n.countChilds == 0) {
+        if (n.countChilds() == 0) {
             return;
         }
 
         // precisa de swap?
-        if ((comp.compare(n.getKey(), n.getLeftChild().getKey()) == 1) ||
-            (comp.compare(n.getKey(), n.getRightChild().getKey()) == 1)) {
-                if (comp.compare(n.getLeftChild().getKey(), n.getRightChild().getKey()) == -1) {
-                    swap(n, n.getLeftChild());
-                    downHeap(n.getLeftChild());
-                }
-                else {
-                    swap(n, n.getRightChild());
-                    downHeap(n.getRightChild());
-                }
+        if ((comp.compare(n.getKey(), n.getLeftChild().getKey()) == 1)
+        ||
+        (comp.compare(n.getKey(), n.getRightChild().getKey()) == 1)) {
+            if (comp.compare(n.getLeftChild().getKey(), n.getRightChild().getKey()) == -1) {
+                swap(n, n.getLeftChild());
+                downHeap(n.getLeftChild());
+            }
+            else {
+                swap(n, n.getRightChild());
+                downHeap(n.getRightChild());
+            }
         }
     }
 
     public void upHeap (Node n) { // compara filho com o pai
-        
+        while (n != root) {
+            if (comp.compare(n.getKey(), n.getParent().getKey()) == -1) {
+                swap(n, n.getParent());
+            }
+            n = n.getParent();
+        }
     }
 
     public void insert (Item i) {
-        findAndInsert(root, i);
+        tail = findAndInsert(root, i);
+        upHeap(tail);
     }
 
-    public void findAndInsert (Node r, Item i) {
+    public Item remove () {
+        Item removed = new Item (root.getKey(), root.getValue());
+        swap(tail, root);
+        if (tail.getParent().getRightChild() == null) {
+            tail.getParent().setLeftChild(null);
+        }
+        else {
+            tail.getParent().setRightChild(null);
+        }
+        downHeap(root);
+        return removed;
+    }
+
+    public Node findAndInsert (Node r, Item i) {
         Node newNode;
 
         // so a raiz
         if (r.getLeftChild() == null) {
             newNode = new Node(r, i.getKey(), i.getValue());
             r.setLeftChild(newNode);
+            return newNode;
         }
 
         // sem filho direito
         else if (tail.getParent().getRightChild() == null) {
             newNode = new Node(tail.getParent(), i.getKey(), i.getValue());
             tail.getParent().setRightChild(newNode);
+            return newNode;
         }
 
         // capacidade == tamanho
@@ -169,11 +201,12 @@ class Heap {
             }
             newNode = new Node(n, i.getKey(), i.getValue());
             n.setLeftChild(newNode);
+            return newNode;
         }
 
         // ultimo caso = todos os anteriores falham
         else {
-            findAndInsert(r.getRightChild(), i);
+            return findAndInsert(r.getRightChild(), i);
         }
     }
 
@@ -181,17 +214,17 @@ class Heap {
         if (r.getLeftChild() != null) {
             return 1+size(r.getLeftChild());
         }
-        return 0;
         if (r.getRightChild() != null) {
             return 1+size(r.getRightChild());
         }
+        return 0;
     }
 
     public int capacity (Node r) {
         int h = height(r);
         int count = 0;
         for (int i = 0; i < h; i++) {
-            count += Math.Pow(2, i);
+            count += (int) Math.Pow(2, i);
         }
 
         return count;
@@ -216,11 +249,88 @@ class Heap {
         }
     }
 
-    public object removeMin ();
+    public Item min () {
+        Item minItem = new Item (root.getKey(), root.getValue());
+        return minItem;
+    }
 
-    public void print ();
+    public void print (Node node) { // "feito"
+        if (node != null) {
+            if (node.countChilds() != 0) {
+                Console.WriteLine(
+                $"{node.getKey()} eh pai de{node.getLeftChild().getKey()} e {node.getRightChild().getKey()} "
+                );
+            }
+            else {
+                Console.WriteLine($"{node.getKey()} nao tem filhos ");
+            }
+            print(node.getLeftChild());
+            print(node.getRightChild());
+        }
+    }
 }
 
 class PriorityQueue {
+    Heap heap;
+    int qtd;
 
+    public PriorityQueue (Item i) {
+        heap = new Heap(i);
+        qtd = 1;
+    }
+
+    public void insert (Item i) {
+        heap.insert(i);
+        qtd++;
+    }
+
+    public Item removeMin () {
+        qtd--;
+        return heap.remove();
+    }
+
+    public Item min () {
+        return heap.min();
+    }
+
+    public int size () {
+        return qtd;
+    }
+
+    public bool isEmpty () {
+        if (qtd == 0) {
+            return true;
+        }
+        return false;
+    }
+}
+
+class Program {
+    public static void Main () {
+        Item i = new Item(0, 0);
+        Heap h = new Heap(i);
+        i = new Item(1, 1);
+        h.insert(i);
+        i = new Item(2, 2);
+        h.insert(i);
+        i = new Item(3, 3);
+        h.insert(i);
+        i = new Item(4, 4);
+        h.insert(i);
+        i = new Item(9, 9);
+        h.insert(i);
+        i = new Item(10, 10);
+        h.insert(i);
+        i = new Item(5, 5);
+        h.insert(i);
+        i = new Item(6, 6);
+        h.insert(i);
+        i = new Item(7, 7);
+        h.insert(i);
+        i = new Item(8, 8);
+        h.insert(i);
+        h.remove();
+
+        h.print(h.getRoot());
+    }
 }
